@@ -4,17 +4,20 @@
 </head>
 <body>
 
-  <!--<script type="text/javascript" src="/script.js"></script>
-  <script type="text/javascript">
-    test();
-  </script>-->
+  <div id="content"/>
 
   <script type="text/javascript" src="/assets/react"></script>
+  <script type="text/javascript" src="/assets/react-dom"></script>
   <script type="text/javascript" src="/assets/app"></script>
   <script type="text/javascript">
     var AppClass = require('app');
     var app = new AppClass();
     app.testMethod();
+
+    var container = document.getElementById("content");
+
+    var incrementor = require('incrementor');
+    ReactDOM.render(React.createElement(incrementor, null), container);
   </script>
 </body>
 </html>

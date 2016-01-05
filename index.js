@@ -13,17 +13,22 @@
   });
 
   var browserify = require('browserify-middleware');
-  var reactModules = ['react', 'react-dom'];
-  app.get('/assets/react', browserify(reactModules));
+  browserify.settings.mode = 'development';
+  app.get('/assets/react', function(req, res){
+    res.sendFile(path.resolve('./node_modules/react/dist/react.js'));
+  });
+  app.get('/assets/react-dom', function(req, res){
+    res.sendFile(path.resolve('./node_modules/react-dom/dist/react-dom.js'));
+  });
 
-  var appBrowserifyParam = {};
-  appBrowserifyParam[path.resolve('./assets/app/app.js')] = { run: false, expose: 'app' };
-  appBrowserifyParam[path.resolve('./assets/app/Home/Home.js')] = { run: true, expose: 'home' };
+  var reactComponents = {};
+  reactComponents[path.resolve('./assets/app/app.js')] = { run: false, expose: 'app' };
+  reactComponents[path.resolve('./assets/app/Home/Incrementor.js')] = { run: false, expose: 'incrementor' };
   app.get('/assets/app', browserify([
-    appBrowserifyParam
+    reactComponents
   ]));
 
-  var server = app.listen(3000, function () {
+  var server = app.listen(3000, function() {
   var port = server.address().port;
 
     console.log('Server listening on port %s', port);
