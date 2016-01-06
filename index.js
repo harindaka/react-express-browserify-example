@@ -14,17 +14,17 @@
 
   var browserify = require('browserify-middleware');
   browserify.settings.mode = 'development';
-  app.get('/assets/react', function(req, res){
+  app.get('/lib/react', function(req, res){
     res.sendFile(path.resolve('./node_modules/react/dist/react.js'));
   });
-  app.get('/assets/react-dom', function(req, res){
+  app.get('/lib/react-dom', function(req, res){
     res.sendFile(path.resolve('./node_modules/react-dom/dist/react-dom.js'));
   });
 
   var reactComponents = {};
-  reactComponents[path.resolve('./assets/utils/TestUtil.js')] = { run: false, expose: 'App.TestUtil' };
-  reactComponents[path.resolve('./assets/components/Home/Incrementor.js')] = { run: false, expose: 'App.Incrementor' };
-  app.get('/assets/utils', browserify([
+  reactComponents[path.resolve('./src/utils/TestUtil.js')] = { run: false, expose: 'App.TestUtil' };
+  reactComponents[path.resolve('./lib/components/Home/Incrementor.js')] = { run: false, expose: 'App.Incrementor' };
+  app.get('/lib/utils', browserify([
     reactComponents
   ]));
 
