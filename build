@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+echo "Compiling jsx..."
+echo
+./node_modules/.bin/babel "$PWD/components" --out-dir "$PWD/assets/components" --extensions ".jsx"
+echo
+echo "Compiling jsx completed."
+echo

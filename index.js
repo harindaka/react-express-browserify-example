@@ -22,9 +22,9 @@
   });
 
   var reactComponents = {};
-  reactComponents[path.resolve('./assets/app/app.js')] = { run: false, expose: 'app' };
-  reactComponents[path.resolve('./assets/app/Home/Incrementor.js')] = { run: false, expose: 'incrementor' };
-  app.get('/assets/app', browserify([
+  reactComponents[path.resolve('./assets/utils/TestUtil.js')] = { run: false, expose: 'App.TestUtil' };
+  reactComponents[path.resolve('./assets/components/Home/Incrementor.js')] = { run: false, expose: 'App.Incrementor' };
+  app.get('/assets/utils', browserify([
     reactComponents
   ]));
 

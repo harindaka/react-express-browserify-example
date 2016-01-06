@@ -8,15 +8,15 @@
 
   <script type="text/javascript" src="/assets/react"></script>
   <script type="text/javascript" src="/assets/react-dom"></script>
-  <script type="text/javascript" src="/assets/app"></script>
+  <script type="text/javascript" src="/assets/utils"></script>
   <script type="text/javascript">
-    var AppClass = require('app');
-    var app = new AppClass();
-    app.testMethod();
+    var TestUtil = require('App.TestUtil');
+    var testUtil = new TestUtil();
+    testUtil.testMethod();
 
     var container = document.getElementById("content");
 
-    var incrementor = require('incrementor');
+    var incrementor = require('App.Incrementor');
     ReactDOM.render(React.createElement(incrementor, null), container);
   </script>
 </body>

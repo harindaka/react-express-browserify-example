@@ -3,7 +3,7 @@ set -e
 
 if [ "$1" = "build" ]
   then
-    sh build.sh
+    ./build
 fi
 
 node index.js
