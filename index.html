@@ -10,13 +10,13 @@
   <script type="text/javascript" src="/lib/react-dom"></script>
   <script type="text/javascript" src="/lib/utils"></script>
   <script type="text/javascript">
-    var TestUtil = require('App.TestUtil');
+    var TestUtil = require('utils/TestUtil');
     var testUtil = new TestUtil();
     testUtil.testMethod();
 
     var container = document.getElementById("content");
 
-    var incrementor = require('App.Incrementor');
+    var incrementor = require('components/Home/Incrementor');
     ReactDOM.render(React.createElement(incrementor, null), container);
   </script>
 </body>

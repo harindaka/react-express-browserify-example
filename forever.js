@@ -7,7 +7,7 @@
 
   var forever = require('forever-monitor');
   var restarts = 3;
-  var child = new (forever.Monitor)(path.resolve('./src/index.js'), {
+  var child = new (forever.Monitor)(path.resolve('./src/server.js'), {
     command: process.execPath + ' --harmony',
     minUptime: 1000,
     spinSleepTime: 1000,

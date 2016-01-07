@@ -22,8 +22,8 @@
   });
 
   var reactComponents = {};
-  reactComponents[path.resolve('./src/utils/TestUtil.js')] = { run: false, expose: 'App.TestUtil' };
-  reactComponents[path.resolve('./lib/components/Home/Incrementor.js')] = { run: false, expose: 'App.Incrementor' };
+  reactComponents[path.resolve('./src/utils/TestUtil.js')] = { run: false, expose: 'utils/TestUtil' };
+  reactComponents[path.resolve('./lib/components/Home/Incrementor.js')] = { run: false, expose: 'components/Home/Incrementor' };
   app.get('/lib/utils', browserify([
     reactComponents
   ]));

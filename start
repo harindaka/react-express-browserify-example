@@ -1,9 +1,16 @@
 #!/bin/bash
 set -e
 
-if [ "$1" = "build" ]
+if [ "$1" = "build" ] || [ "$2" = "build" ]
   then
     ./build
 fi
 
-node index.js
+if [ "$1" = "forever" ] || [ "$2" = "forever" ]
+  then
+    node forever.js
+  else
+  	node --harmony ./src/server.js
+fi
+
+
