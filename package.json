@@ -10,9 +10,11 @@
   "author": "Hemal Harindaka <harindaka@gmail.com> (https://github.com/harindaka)",
   "license": "MIT",
   "dependencies": {
+    "bootstrap": "3.3.6",
     "browserify-middleware": "7.0.0",
+    "classnames": "2.2.3",
     "express": "^4.13.3",
-    "forever-monitor": "^1.7.0",
+    "forever-monitor": "1.7.0",
     "react": "0.14.5",
     "react-dom": "0.14.5"
   },
