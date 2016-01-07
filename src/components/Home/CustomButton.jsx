@@ -1,3 +1,5 @@
+var classnames = require('classnames');
+
 module.exports = React.createClass({
   getInitialState: function(){
     return { result: new Number(this.props.startAt) };
@@ -8,7 +10,7 @@ module.exports = React.createClass({
   },
   render: function(){
     return (
-      <button onClick={this.handleClick}>++{this.props.incrementBy}</button>
+      <button className={classnames('custombtn', 'custombtn:hover')} onClick={this.handleClick}>++{this.props.incrementBy}</button>
     );
   }
 });

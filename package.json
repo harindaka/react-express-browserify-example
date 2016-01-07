@@ -15,6 +15,7 @@
     "classnames": "2.2.3",
     "express": "^4.13.3",
     "forever-monitor": "1.7.0",
+    "jquery": "^2.1.4",
     "react": "0.14.5",
     "react-dom": "0.14.5"
   },
