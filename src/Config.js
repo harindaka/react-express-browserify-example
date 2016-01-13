@@ -16,20 +16,38 @@ module.exports = {
 		'/lib/react-dom': './node_modules/react-dom/dist/react-dom.js',
 
 		'/lib/components': { 
-			browserify: [
-				'classnames',
-				{
-					'./lib/components/Home/Incrementor.js': { run: false, expose: 'components/Home/Incrementor' }
+			browserify: {
+				modules: [
+					'classnames',
+					{
+						'./lib/components/Home/Incrementor.js': { run: false, expose: 'components/Home/Incrementor' }
+					}
+				],
+				options: {
+					cache: false,
+					precompile: false,
+					minify: false,
+					gzip: false,
+					debug: true
 				}
-			]
+			}
 		},
 
 		'/lib/utils': { 
-			browserify: [
-				{
-					'./src/utils/TestUtil.js': { run: false, expose: 'utils/TestUtil' }
+			browserify: {
+				modules: [
+					{
+						'./src/utils/TestUtil.js': { run: false, expose: 'utils/TestUtil' }
+					}
+				],
+				options: {
+					cache: false,
+					precompile: false,
+					minify: false,
+					gzip: false,
+					debug: true
 				}
-			]
+			}
 		}
 	}
 }

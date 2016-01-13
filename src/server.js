@@ -29,14 +29,38 @@ function registerAsset(expressApp, route, routeDefinition){
     });
   }
   else if(routeDefinition !== null && rdType === 'object'){
-    if(typeof(routeDefinition['browserify']) !== 'undefined' && routeDefinition['browserify'] !== null){
-      var browserify = require('browserify-middleware');
-      browserify.settings.mode = 'development'; 
+    var browserifyConfig = routeDefinition['browserify'];
+    if(typeof(browserifyConfig) !== 'undefined' && browserifyConfig !== null){
+      
+      var browserifyModules = browserifyConfig['modules'];
+      if(typeof(browserifyModules) !== 'undefined' && browserifyModules !== null){
+        var browserify = require('browserify-middleware');
+        browserify.settings.mode = 'production';
 
-      expressApp.get(route, browserify(routeDefinition['browserify']));
+        var browserifyOptions = browserifyConfig['options'];
+        if(typeof(browserifyOptions) === 'undefined' || browserifyOptions === null){          
+          browserifyOptions = {
+            cache: false,
+            precompile: false,
+            minify: false,
+            gzip: false,
+            debug: true
+          };
+        } 
+        browserifyOptions.mode = 'production';  
+
+        expressApp.get(route, browserify(browserifyModules, browserifyOptions));
+      }
+      else{
+        throw new Error('Invalid route definition specified for asset ' + route + '.');
+      }            
+    }
+    else{
+      throw new Error('Invalid route definition specified for asset ' + route + '.');
     }
   }
   else{
     throw new Error('Invalid route definition specified for asset ' + route + '.');
   }
 }
+
