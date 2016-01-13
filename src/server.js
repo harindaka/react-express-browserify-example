@@ -64,3 +64,10 @@ function registerAsset(expressApp, route, assetConfig){
   }
 }
 
+function fingerprintAsset(route, query){
+  var Uri = require('urijs');
+  var url = new Uri(route);
+  
+  url.addQuery(query, '1234');
+  return url.toString();
+}

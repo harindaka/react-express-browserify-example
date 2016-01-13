@@ -17,7 +17,8 @@
     "forever-monitor": "1.7.0",
     "jquery": "^2.1.4",
     "react": "0.14.5",
-    "react-dom": "0.14.5"
+    "react-dom": "0.14.5",
+    "urijs": "1.17.0"
   },
   "devDependencies": {
     "babel-cli": "6.3.17",
