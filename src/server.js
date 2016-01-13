@@ -7,8 +7,8 @@
 
   var config = require('./Config');
   for(var route in config.assets){
-    var routeDefinition = config.assets[route];    
-    registerAsset(app, route, routeDefinition);    
+    var assetConfig = config.assets[route];    
+    registerAsset(app, route, assetConfig);    
   }
 
   var server = app.listen(3000, function() {
@@ -19,17 +19,17 @@
 
 })();
 
-function registerAsset(expressApp, route, routeDefinition){
-  var rdType = typeof(routeDefinition);
+function registerAsset(expressApp, route, assetConfig){
+  var rdType = typeof(assetConfig);
   if(rdType === 'string'){   
     var path = require('path');
 
     expressApp.get(route, function(req, res){    
-      res.sendFile(path.resolve(routeDefinition));        
+      res.sendFile(path.resolve(assetConfig));        
     });
   }
-  else if(routeDefinition !== null && rdType === 'object'){
-    var browserifyConfig = routeDefinition['browserify'];
+  else if(assetConfig !== null && rdType === 'object'){
+    var browserifyConfig = assetConfig['browserify'];
     if(typeof(browserifyConfig) !== 'undefined' && browserifyConfig !== null){
       
       var browserifyModules = browserifyConfig['modules'];
