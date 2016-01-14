@@ -1,7 +1,7 @@
 module.exports = {
 
 	assets: {
-		'/': './src/index.html',
+		'/': { template : './src/index.ejs' },
 		'/lib/site.css': './lib/site.css',
 		'/lib/jquery/jquery.js': './node_modules/jquery/dist/jquery.js',
 		'/lib/bootstrap/css/bootstrap.css': './node_modules/bootstrap/dist/css/bootstrap.css',

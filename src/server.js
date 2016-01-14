@@ -4,15 +4,18 @@
   var app = express();
 
   var path = require('path');
-
+  app.set('view engine', 'ejs');
+  
   var config = require('./Config');
+  app.locals.assetRoutes = {};
   for(var route in config.assets){
     var assetConfig = config.assets[route];    
-    registerAsset(app, route, assetConfig);    
+    registerAsset(app, route, assetConfig);
+    fingerprintAsset(app, route, '__fingerprint');    
   }
 
   var server = app.listen(3000, function() {
-  var port = server.address().port;
+    var port = server.address().port;
 
     console.log('Server listening on port %s', port);
   });
@@ -29,9 +32,16 @@ function registerAsset(expressApp, route, assetConfig){
     });
   }
   else if(assetConfig !== null && rdType === 'object'){
-    var browserifyConfig = assetConfig['browserify'];
-    if(typeof(browserifyConfig) !== 'undefined' && browserifyConfig !== null){
-      
+    
+    if(typeof(assetConfig['template']) !== 'undefined' && assetConfig['template'] !== null){
+      var template = assetConfig['template'];
+      var path = require('path');
+      expressApp.get(route, function(req, res){    
+        res.render(path.resolve(template));
+      });
+    }
+    else if(typeof(assetConfig['browserify']) !== 'undefined' && assetConfig['browserify'] !== null){
+      var browserifyConfig = assetConfig['browserify'];
       var browserifyModules = browserifyConfig['modules'];
       if(typeof(browserifyModules) !== 'undefined' && browserifyModules !== null){
         var browserify = require('browserify-middleware');
@@ -64,10 +74,11 @@ function registerAsset(expressApp, route, assetConfig){
   }
 }
 
-function fingerprintAsset(route, query){
+function fingerprintAsset(expressApp, route, query){
   var Uri = require('urijs');
   var url = new Uri(route);
   
   url.addQuery(query, '1234');
-  return url.toString();
+  
+  expressApp.locals.assetRoutes[route] = url.toString();
 }
