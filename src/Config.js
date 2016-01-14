@@ -20,7 +20,7 @@ module.exports = {
 				modules: [
 					'classnames',
 					{
-						'./lib/components/Home/Incrementor.js': { run: false, expose: 'components/Home/Incrementor' }
+						'./lib/components/Home/Index.js': { run: false, expose: 'components/Home/Index' }
 					}
 				],
 				options: {

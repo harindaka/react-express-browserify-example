@@ -2,6 +2,7 @@
 set -e
 echo "Compiling jsx..."
 echo
+rm -rf "$PWD/lib/components"
 ./node_modules/.bin/babel "$PWD/src/components" --out-dir "$PWD/lib/components" --extensions ".jsx"
 echo
 echo "Compiling jsx completed."

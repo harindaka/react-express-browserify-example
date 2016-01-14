@@ -9,13 +9,21 @@ module.exports = React.createClass({
     this.setState({result: result});
   },
   render: function(){
+    var centerBoldTextStyle = {
+      textAlign: 'center',
+      fontWeight: 'bold'
+    };
+
     return (
       <div>
-      <CustomButton onIncrementResult={this.handleIncrementResult} startAt={this.state.result} incrementBy="1"/>&nbsp;
-      <CustomButton onIncrementResult={this.handleIncrementResult} startAt={this.state.result} incrementBy="10"/>&nbsp;
-      <CustomButton onIncrementResult={this.handleIncrementResult} startAt={this.state.result} incrementBy="100"/>
-      <br/>
-      <IncrementResult result={this.state.result}/>
+        <CustomButton onIncrementResult={this.handleIncrementResult} startAt={this.state.result} incrementBy="1"/>&nbsp;
+        <CustomButton onIncrementResult={this.handleIncrementResult} startAt={this.state.result} incrementBy="10"/>&nbsp;
+        <CustomButton onIncrementResult={this.handleIncrementResult} startAt={this.state.result} incrementBy="100"/>
+        <br/>
+        <br/>
+        <div style={centerBoldTextStyle}>
+          <IncrementResult result={this.state.result}/>
+        </div>
       </div>
     );
   }
