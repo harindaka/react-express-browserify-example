@@ -7,11 +7,10 @@
   app.set('view engine', 'ejs');
   
   var config = require('./Config');
-  app.locals.assetRoutes = {};
+  app.locals.assets = {};
   for(var route in config.assets){
     var assetConfig = config.assets[route];    
-    registerAsset(app, route, assetConfig);
-    fingerprintAsset(app, route, '__fingerprint');    
+    registerAsset(app, route, assetConfig);       
   }
 
   var server = app.listen(3000, function() {
@@ -23,12 +22,14 @@
 })();
 
 function registerAsset(expressApp, route, assetConfig){
+  var fingerprintQueryKey = '__fingerprint';
   var rdType = typeof(assetConfig);
   if(rdType === 'string'){   
     var path = require('path');
-
+    var assetFile = path.resolve(assetConfig);
+    fingerprintAsset(expressApp, route, [assetFile], fingerprintQueryKey); 
     expressApp.get(route, function(req, res){    
-      res.sendFile(path.resolve(assetConfig));        
+      res.sendFile(assetFile);        
     });
   }
   else if(assetConfig !== null && rdType === 'object'){
@@ -36,8 +37,10 @@ function registerAsset(expressApp, route, assetConfig){
     if(typeof(assetConfig['template']) !== 'undefined' && assetConfig['template'] !== null){
       var template = assetConfig['template'];
       var path = require('path');
+      var assetFile = path.resolve(template);
+      fingerprintAsset(expressApp, route, [assetFile], fingerprintQueryKey); 
       expressApp.get(route, function(req, res){    
-        res.render(path.resolve(template));
+        res.render(assetFile);
       });
     }
     else if(typeof(assetConfig['browserify']) !== 'undefined' && assetConfig['browserify'] !== null){
@@ -59,6 +62,8 @@ function registerAsset(expressApp, route, assetConfig){
         } 
         browserifyOptions.mode = 'production';  
 
+        fingerprintAsset(expressApp, route, null, null);
+
         expressApp.get(route, browserify(browserifyModules, browserifyOptions));
       }
       else{
@@ -74,11 +79,16 @@ function registerAsset(expressApp, route, assetConfig){
   }
 }
 
-function fingerprintAsset(expressApp, route, query){
+function fingerprintAsset(expressApp, route, files, query){
   var Uri = require('urijs');
   var url = new Uri(route);
   
-  url.addQuery(query, '1234');
-  
-  expressApp.locals.assetRoutes[route] = url.toString();
+  if(typeof(files) !== 'undefined' && files !== null && files.length > 0){
+    var hashFiles = require('hash-files');
+    var fingerprint = hashFiles.sync({ files:files, algorithm:'md5' });
+
+    url.addQuery(query, fingerprint);
+  }
+
+  expressApp.locals.assets[route] = url.toString();
 }
