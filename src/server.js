@@ -53,16 +53,25 @@ function registerAsset(expressApp, route, assetConfig){
         var browserifyOptions = browserifyConfig['options'];
         if(typeof(browserifyOptions) === 'undefined' || browserifyOptions === null){          
           browserifyOptions = {
-            cache: false,
-            precompile: false,
             minify: false,
             gzip: false,
             debug: true
           };
         } 
-        browserifyOptions.mode = 'production';  
+        browserifyOptions.mode = 'production';
 
-        fingerprintAsset(expressApp, route, null, null);
+        if(typeof(browserifyOptions.cache) === 'undefined' 
+          || browserifyOptions.cache === null 
+          || (typeof(browserifyOptions.cache) === 'boolean' && browserifyOptions.cache === false)
+          || (typeof(browserifyOptions.cache) === 'string' && browserifyOptions.cache === '')){
+            browserifyOptions.cache = 1000;
+        }
+        
+        browserifyOptions.precompile = true;  
+        browserifyOptions.postcompile = function(source){
+          fingerprintAsset(expressApp, route, source, fingerprintQueryKey);
+          return source;  
+        };        
 
         expressApp.get(route, browserify(browserifyModules, browserifyOptions));
       }
@@ -79,16 +88,28 @@ function registerAsset(expressApp, route, assetConfig){
   }
 }
 
-function fingerprintAsset(expressApp, route, files, query){
+function fingerprintAsset(expressApp, route, filesOrData, query){
   var Uri = require('urijs');
   var url = new Uri(route);
   
-  if(typeof(files) !== 'undefined' && files !== null && files.length > 0){
-    var hashFiles = require('hash-files');
-    var fingerprint = hashFiles.sync({ files:files, algorithm:'md5' });
+  var fingerprint = '';
+  if(typeof(filesOrData) !== 'undefined' && filesOrData !== null){
+    if(Array.isArray(filesOrData) && filesOrData.length > 0){
+      var hashFiles = require('hash-files');
+      fingerprint = hashFiles.sync({ files:filesOrData, algorithm:'md5' });
+    } 
+    else if(typeof(filesOrData) === 'string' && filesOrData.length > 0){
+      var crypto = require('crypto');
+      fingerprint = crypto.createHash('md5').update(filesOrData).digest('hex');
+    }
+    else{
+      throw new Error('Invalid content encountered for asset ' + route + '.');
+    }
 
-    url.addQuery(query, fingerprint);
+    if(fingerprint !== null && fingerprint.length > 0){
+      url.addQuery(query, fingerprint);
+    }
   }
-
+  console.log('asset: ' + url.toString());
   expressApp.locals.assets[route] = url.toString();
 }
