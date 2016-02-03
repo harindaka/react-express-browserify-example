@@ -110,6 +110,6 @@ function fingerprintAsset(expressApp, route, filesOrData, query){
       url.addQuery(query, fingerprint);
     }
   }
-  console.log('asset: ' + url.toString());
+  
   expressApp.locals.assets[route] = url.toString();
 }
